@@ -74,7 +74,6 @@ $emploi_long = emploi_plus_long($emp_no);
                                 <tr>
                                     <th>Departement</th>
                                     <td>
-                                        <i class="bi bi-building me-1 text-primary"></i>
                                         <?php echo $dept['dept_name']; ?>  
                                         <?php if (!empty($dept['from_date'])) { ?>
                                            <span class="text-muted small ms-2">(A partir : <?php echo $dept['from_date']; ?>)</span>

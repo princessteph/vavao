@@ -179,15 +179,18 @@ function rechercher($nom, $dept, $min, $max, $offset = 0){
     return $result;
 }
 
-function modif_depart_employe($emp_no, $new_dept_no) {
+function modif_depart_employe($emp_no, $new_dept_no, $from_date) {
     $db = dbconnect();
     
-    $sql = "UPDATE dept_emp 
-            SET dept_no = '$new_dept_no' 
-            WHERE emp_no = '$emp_no' AND to_date = '9999-01-01'";
-            
-    mysqli_query($db, $sql);
-
+    $sql1 = "UPDATE dept_emp 
+             SET to_date = '$from_date' 
+             WHERE emp_no = '$emp_no' 
+             AND to_date = '9999-01-01'";
+    mysqli_query($db, $sql1);
+    
+    $sql2 = "INSERT INTO dept_emp (emp_no, dept_no, from_date, to_date) 
+             VALUES ('$emp_no', '$new_dept_no', '$from_date', '9999-01-01')";
+    return mysqli_query($db, $sql2);
 }
     
 

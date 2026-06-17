@@ -128,7 +128,7 @@
         </div>
     </main>
 
-    <footer class="text-center text-muted small py-4">Employees DB — Resultats de recherche</footer>
+    <footer class="text-center text-muted small">Employees — Resultats de recherche</footer>
 
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>

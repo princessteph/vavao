@@ -118,6 +118,40 @@ $emploi_long = emploi_plus_long($emp_no);
                                         </a>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <th>Changer de département</th>
+                                    <td>
+                                        <form action="changer_dept.php" method="post" class="d-flex align-items-center gap-2">
+                                            <input type="hidden" name="emp_no" value="<?php echo $emp_no; ?>">
+                                            <input type="hidden" name="date_actuelle" value="<?php echo $dept['from_date']; ?>">
+                                            
+                                            <select name="new_dept" class="form-select form-select-sm" style="max-width: 200px;" required>
+                                                <option value="">Choisir un département</option>
+                                                <?php foreach ($tous_les_depts as $d) { ?>
+                                                    <?php if ($d['dept_no'] !== $dept['dept_no']) { ?>
+                                                        <option value="<?php echo $d['dept_no']; ?>">
+                                                            <?php echo $d['dept_name']; ?>
+                                                        </option>
+                                                    <?php } ?>
+                                                <?php } ?>
+                                            </select>
+
+                                            <input type="date" name="date_debut" class="form-control form-control-sm" style="max-width: 140px;" value="<?php echo date('Y-m-d'); ?>" required>
+                                            
+                                            <button type="submit" class="btn btn-primary btn-sm d-flex align-items-center gap-1">
+                                                <i class="bi bi-check-lg"></i>
+                                                <span>Valider</span>
+                                            </button>
+                                        </form>
+
+                                        <?php if (isset($_GET['erreur']) && $_GET['erreur'] === 'date_anterieure') { ?>
+                                            <div class="text-danger small fw-bold mt-1">
+                                                <i class="bi bi-exclamation-circle me-1"></i>
+                                                La date ne peut pas être antérieure au <?php echo $dept['from_date']; ?>.
+                                            </div>
+                                        <?php } ?>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -139,47 +173,9 @@ $emploi_long = emploi_plus_long($emp_no);
                     </div>
                 </div>
             </div>
-
-            <div class="card shadow">
-                <div class="card-header bg-secondary text-white">
-                    <i class="bi bi-arrow-left-right me-2"></i>Changer de departement
-                </div>
-                <div class="card-body">
-                    <div  class="d-flex justify-content-between align-items-center border-bottom py-2">        
-                    <form action="changer_dept.php" method="post">
-                        <input type="hidden" name="emp_no" value="<?php echo $emp_no; ?>">
-                        <input type="hidden" name="date_actuelle" value="<?php echo $dept['from_date']; ?>">
-                        
-                        <select name="new_dept" class="form-control form-control-sm search-input" required>
-                            <option value="">Choisir un departement</option>
-                            <?php foreach ($tous_les_depts as $d) { ?>
-                                <?php if ($d['dept_no'] !== $dept['dept_no']) { ?>
-                                <option value="<?php echo $d['dept_no']; ?>">
-                                    <?php echo $d['dept_name']; ?>
-                                    </option>
-                                <?php } ?>
-                            <?php } ?>
-                            </select>
-
-                            <input type="date" name="date_debut" class="form-control form-control-sm d-inline-block w-auto" value="<?php echo date('Y-m-d'); ?>" required>
-                            
-                            <button type="submit" class="btn btn-primary btn-sm">
-                                <i class="bi bi-check-lg">Valider</i>
-                                </button>
-                                </form>
-                            </div>
-
-                            <?php if (isset($_GET['erreur']) && $_GET['erreur'] === 'date_anterieure') { ?>
-                            <div class="text-danger small fw-bold mt-2">
-                                La date ne peut pas etre anterieure au <?php echo $dept['from_date']; ?>.
-                            </div>
-                            <?php } ?>
-
-                    </div>
-            </div>
-
         </div>
     </main>
 
+    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

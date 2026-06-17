@@ -8,16 +8,13 @@ $employee = fiche_employe($emp_no);
 $manager = manager_actuel_info($dept_no);
 $erreur = '';
 
-// Si le formulaire est envoye
 if (isset($_POST['date_debut'])) {
     $date_debut = $_POST['date_debut'];
     $date_manager = $manager['from_date'];
     
-    // Verifie que la nouvelle date est apres celle du manager actuel
     if ($date_debut <= $date_manager) {
         $erreur = "Erreur : la date doit etre apres le " . $date_manager;
     } else {
-        // Ajoute le nouveau manager
         ajouter_manager($dept_no, $emp_no, $date_debut);
         header("Location: index.php");
         exit;
@@ -54,21 +51,18 @@ if (isset($_POST['date_debut'])) {
                     </div>
                     <div class="card-body">
                         
-                        <!-- Manager actuel -->
                         <p class="text-muted">
                             Manager actuel : 
                             <strong><?php echo $manager['first_name'] . ' ' . $manager['last_name']; ?></strong>
                             (depuis <?php echo $manager['from_date']; ?>)
                         </p>
                         
-                        <!-- Message d'erreur -->
                         <?php if ($erreur != '') { ?>
                             <div class="alert alert-danger">
                                 <i class="bi bi-exclamation-triangle me-1"></i><?php echo $erreur; ?>
                             </div>
                         <?php } ?>
                         
-                        <!-- Formulaire -->
                         <form method="post">
                             <div class="mb-3">
                                 <label class="form-label">Employe</label>

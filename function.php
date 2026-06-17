@@ -86,7 +86,7 @@ function fiche_employe($emp_no) {
 }   
 
 function dept_employe($emp_no) {
-    $sql = "SELECT departments.dept_name 
+    $sql = "SELECT departments.dept_no, departments.dept_name, dept_emp.from_date
             FROM dept_emp 
             JOIN departments ON dept_emp.dept_no = departments.dept_no 
             WHERE dept_emp.emp_no = '$emp_no' 
@@ -96,10 +96,11 @@ function dept_employe($emp_no) {
     
     if ($res && $row = mysqli_fetch_assoc($res)) {
         mysqli_free_result($res);
-        return $row['dept_name'];
+        return $row;
     }
-    
-    return 'Non assigne';
+        
+    // return 'Non assigne';
+    return array('dept_no' => '', 'dept_name' => 'Non assigne', 'from_date' => '-');
 }
 
 function historique_salaire($emp_no) {
@@ -189,6 +190,7 @@ function modif_depart_employe($emp_no, $new_dept_no) {
 
 }
     
+
 function statistiques_emploi() {
     $connect = dbconnect();
     $result = array();

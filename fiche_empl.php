@@ -5,6 +5,7 @@ $emp_no = $_GET['emp_no'];
 $employee = fiche_employe($emp_no);
 $salaries = historique_salaire($emp_no);
 $dept = dept_employe($emp_no);
+$tous_les_depts = ls_depart();
 $dept_no = dept_no_employe($emp_no);
 
 $emploi_long = emploi_plus_long($emp_no);
@@ -114,6 +115,28 @@ $emploi_long = emploi_plus_long($emp_no);
                                         </a>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <th>Changer de département</th>
+                                    <td>
+                                        <form action="changer_dept.php" method="post" class="d-flex align-items-center gap-2">
+                                            <input type="hidden" name="emp_no" value="<?php echo $emp_no; ?>">
+                                            
+                                            <select name="new_dept" class="form-select form-select-sm" style="max-width: 250px;" required>
+                                                <option value="">Choisir un département</option>
+                                                <?php foreach ($tous_les_depts as $d) { ?>
+                                                <option value="<?php echo $d['dept_no']; ?>">
+                                                    <?php echo $d['dept_name']; ?>
+                                                </option>
+                                                <?php } ?>
+                                            </select>
+                                            
+                                            <button type="submit" class="btn btn-primary btn-sm d-flex align-items-center gap-1">
+                                                <i class="bi bi-check-lg"></i>
+                                                <span>Valider</span>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -138,6 +161,5 @@ $emploi_long = emploi_plus_long($emp_no);
         </div>
     </main>
 
-    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

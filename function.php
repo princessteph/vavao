@@ -178,6 +178,17 @@ function rechercher($nom, $dept, $min, $max, $offset = 0){
     return $result;
 }
 
+function modif_depart_employe($emp_no, $new_dept_no) {
+    $db = dbconnect();
+    
+    $sql = "UPDATE dept_emp 
+            SET dept_no = '$new_dept_no' 
+            WHERE emp_no = '$emp_no' AND to_date = '9999-01-01'";
+            
+    mysqli_query($db, $sql);
+
+}
+    
 function statistiques_emploi() {
     $connect = dbconnect();
     $result = array();

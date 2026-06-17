@@ -179,27 +179,57 @@ function rechercher($nom, $dept, $min, $max, $offset = 0){
 }
 
 function statistiques_emploi() {
-    $sql = "SELECT 
-                titles.title as emploi,
-                SUM(CASE WHEN employees.gender = 'M' THEN 1 ELSE 0 END) as hommes,
-                SUM(CASE WHEN employees.gender = 'F' THEN 1 ELSE 0 END) as femmes,
-                COUNT(*) as total,
-                ROUND(AVG(salaries.salary), 2) as salaire_moyen
-            FROM titles
-            JOIN employees ON titles.emp_no = employees.emp_no
-            JOIN salaries ON titles.emp_no = salaries.emp_no
-            WHERE titles.to_date = '9999-01-01'
-            AND salaries.to_date = '9999-01-01'
-            GROUP BY titles.title
-            ORDER BY total DESC";
-    
-    $req = mysqli_query(dbconnect(), $sql);
+    $connect = dbconnect();
     $result = array();
     
-    while ($ligne = mysqli_fetch_assoc($req)) {
-        $result[] = $ligne;
+    $sql_emplois = "SELECT DISTINCT title FROM titles WHERE to_date = '9999-01-01'";
+    $req_emplois = mysqli_query($connect, $sql_emplois);
+    
+    while ($emploi = mysqli_fetch_assoc($req_emplois)) {
+        $titre = $emploi['title'];
+        
+        $sql_hommes = "SELECT COUNT(*) as nb 
+                       FROM employees 
+                       JOIN titles ON employees.emp_no = titles.emp_no 
+                       WHERE titles.title = '$titre' 
+                       AND employees.gender = 'M'
+                       AND titles.to_date = '9999-01-01'";
+        $req_hommes = mysqli_query($connect, $sql_hommes);
+        $hommes = mysqli_fetch_assoc($req_hommes)['nb'];
+        mysqli_free_result($req_hommes);
+        
+        $sql_femmes = "SELECT COUNT(*) as nb 
+                        FROM employees 
+                        JOIN titles ON employees.emp_no = titles.emp_no 
+                        WHERE titles.title = '$titre' 
+                        AND employees.gender = 'F'
+                        AND titles.to_date = '9999-01-01'";
+        $req_femmes = mysqli_query($connect, $sql_femmes);
+        $femmes = mysqli_fetch_assoc($req_femmes)['nb'];
+        mysqli_free_result($req_femmes);
+        
+        $sql_salaire = "SELECT AVG(salary) as moyenne 
+                        FROM salaries 
+                        JOIN titles ON salaries.emp_no = titles.emp_no 
+                        WHERE titles.title = '$titre'
+                        AND salaries.to_date = '9999-01-01'
+                        AND titles.to_date = '9999-01-01'";
+        $req_salaire = mysqli_query($connect, $sql_salaire);
+        $salaire_moyen = mysqli_fetch_assoc($req_salaire)['moyenne'];
+        mysqli_free_result($req_salaire);
+        
+        $total = $hommes + $femmes;
+        
+        $result[] = array(
+            'emploi' => $titre,
+            'hommes' => $hommes,
+            'femmes' => $femmes,
+            'total' => $total,
+            'salaire_moyen' => round($salaire_moyen, 2)
+        );
     }
     
-    mysqli_free_result($req);
+    mysqli_free_result($req_emplois);
+    
     return $result;
 }

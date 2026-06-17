@@ -92,6 +92,10 @@ $dept = dept_employe($emp_no);
                                     <th>Engager le</th>
                                     <td><?php echo $employee['hire_date']; ?></td>
                                 </tr>
+                                <tr>
+                                    <th>Emploi</th>
+                                    <td><?php echo $employee['title']; ?></td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>

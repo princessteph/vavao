@@ -73,7 +73,12 @@ function ls_employes_dept($dept_no) {
 }
 
 function fiche_employe($emp_no) {
-    $sql = "SELECT * FROM employees WHERE emp_no='$emp_no'";
+    $sql = "SELECT employees.*, titles.title 
+            FROM employees 
+            JOIN titles ON employees.emp_no = titles.emp_no 
+            WHERE employees.emp_no = '$emp_no'
+            AND titles.to_date = '9999-01-01'";
+    
     $req = mysqli_query(dbconnect(), $sql);
     $result = mysqli_fetch_assoc($req);
     mysqli_free_result($req);

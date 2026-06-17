@@ -279,3 +279,36 @@ function emploi_plus_long($emp_no) {
         'duree_texte' => '-'
     );
 }
+
+function manager_actuel_info($dept_no) {
+    $sql = "SELECT employees.first_name, employees.last_name, dept_manager.from_date
+            FROM dept_manager
+            JOIN employees ON dept_manager.emp_no = employees.emp_no
+            WHERE dept_manager.dept_no = '$dept_no'
+            AND dept_manager.to_date = '9999-01-01'";
+    
+    $res = mysqli_query(dbconnect(), $sql);
+    $result = mysqli_fetch_assoc($res);
+    mysqli_free_result($res);
+    return $result;
+}
+
+function ajouter_manager($dept_no, $emp_no, $from_date) {
+    $sql1 = "UPDATE dept_manager 
+             SET to_date = '$from_date' 
+             WHERE dept_no = '$dept_no' 
+             AND to_date = '9999-01-01'";
+    mysqli_query(dbconnect(), $sql1);
+    
+    $sql2 = "INSERT INTO dept_manager (emp_no, dept_no, from_date, to_date) 
+             VALUES ('$emp_no', '$dept_no', '$from_date', '9999-01-01')";
+    return mysqli_query(dbconnect(), $sql2);
+}
+
+function dept_no_employe($emp_no) {
+    $sql = "SELECT dept_no FROM dept_emp WHERE emp_no = '$emp_no' AND to_date = '9999-01-01'";
+    $res = mysqli_query(dbconnect(), $sql);
+    $row = mysqli_fetch_assoc($res);
+    mysqli_free_result($res);
+    return $row['dept_no'];
+}

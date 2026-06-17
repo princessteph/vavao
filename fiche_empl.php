@@ -5,8 +5,8 @@ $emp_no = $_GET['emp_no'];
 $employee = fiche_employe($emp_no);
 $salaries = historique_salaire($emp_no);
 $dept = dept_employe($emp_no);
+$dept_no = dept_no_employe($emp_no);
 
-// AJOUTE CETTE LIGNE
 $emploi_long = emploi_plus_long($emp_no);
 ?>
 
@@ -105,6 +105,14 @@ $emploi_long = emploi_plus_long($emp_no);
                                 <tr>
                                     <th>Emploi actuel</th>
                                     <td><?php echo $employee['title']; ?></td>
+                                </tr>
+                                <tr>
+                                    <th>Action</th>
+                                    <td>
+                                        <a href="devenir_manager.php?emp_no=<?php echo $emp_no; ?>&dept_no=<?php echo $dept_no; ?>" class="btn btn-warning btn-sm">
+                                            <i class="bi bi-star me-1"></i>Devenir Manager
+                                        </a>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

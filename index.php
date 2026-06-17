@@ -39,6 +39,11 @@ $departements = ls_depart();
     </header>
 
     <main class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <a href="statistiques.php" class="btn btn-outline-primary">
+                <i class="bi bi-bar-chart me-2"></i> Statistiques
+            </a>
+        </div>
         <div class="tableau">
             <h1 class="text-center mb-4">Liste des departements</h1>
             <table class="table table-hover shadow-sm">

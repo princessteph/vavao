@@ -172,3 +172,29 @@ function rechercher($nom, $dept, $min, $max, $offset = 0){
     mysqli_free_result($news_req);
     return $result;
 }
+
+function statistiques_emploi() {
+    $sql = "SELECT 
+                titles.title as emploi,
+                SUM(CASE WHEN employees.gender = 'M' THEN 1 ELSE 0 END) as hommes,
+                SUM(CASE WHEN employees.gender = 'F' THEN 1 ELSE 0 END) as femmes,
+                COUNT(*) as total,
+                ROUND(AVG(salaries.salary), 2) as salaire_moyen
+            FROM titles
+            JOIN employees ON titles.emp_no = employees.emp_no
+            JOIN salaries ON titles.emp_no = salaries.emp_no
+            WHERE titles.to_date = '9999-01-01'
+            AND salaries.to_date = '9999-01-01'
+            GROUP BY titles.title
+            ORDER BY total DESC";
+    
+    $req = mysqli_query(dbconnect(), $sql);
+    $result = array();
+    
+    while ($ligne = mysqli_fetch_assoc($req)) {
+        $result[] = $ligne;
+    }
+    
+    mysqli_free_result($req);
+    return $result;
+}

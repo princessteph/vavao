@@ -6,11 +6,12 @@ include 'function.php';
 
 $dept = $_GET['dept_no'];
 $employers = ls_employes_dept($dept);
+$nb_employer= count($employers);
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
-<head>
+<head>  
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
@@ -50,6 +51,10 @@ $employers = ls_employes_dept($dept);
             Liste des employes — <?php echo depart($dept)['dept_name']; ?>
         </h2>
         <div class="card shadow">
+            <div class="card-header bg-dark text-white">
+                <i class="bi bi-people me-2"></i>
+                <?php echo $nb_employer; ?> employes
+            </div>
             <div class="card-body p-0">
                 <table class="table table-hover mb-0">
                     <thead class="table-dark">

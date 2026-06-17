@@ -5,6 +5,9 @@ $emp_no = $_GET['emp_no'];
 $employee = fiche_employe($emp_no);
 $salaries = historique_salaire($emp_no);
 $dept = dept_employe($emp_no);
+
+// AJOUTE CETTE LIGNE
+$emploi_long = emploi_plus_long($emp_no);
 ?>
 
 <!DOCTYPE html>
@@ -73,6 +76,13 @@ $dept = dept_employe($emp_no);
                                         <i class="bi bi-building me-1 text-primary"></i>
                                         <?php echo $dept; ?>
                                     </td>
+                                </tr>                                
+                                <tr>
+                                    <th>Emploi le plus long</th>
+                                    <td>
+                                        <?php echo $emploi_long['title']; ?> 
+                                        <span class="text-muted">(<?php echo $emploi_long['duree_texte']; ?>)</span>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th>Date de naissance</th>
@@ -93,7 +103,7 @@ $dept = dept_employe($emp_no);
                                     <td><?php echo $employee['hire_date']; ?></td>
                                 </tr>
                                 <tr>
-                                    <th>Emploi</th>
+                                    <th>Emploi actuel</th>
                                     <td><?php echo $employee['title']; ?></td>
                                 </tr>
                             </tbody>

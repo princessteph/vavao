@@ -233,3 +233,49 @@ function statistiques_emploi() {
     
     return $result;
 }
+
+function emploi_plus_long($emp_no) {
+    $sql = "SELECT title, from_date, to_date 
+            FROM titles 
+            WHERE emp_no = '$emp_no'";
+    
+    $req = mysqli_query(dbconnect(), $sql);
+    
+    $emploi_long = null;
+    $max_duree = 0;
+    
+    while ($ligne = mysqli_fetch_assoc($req)) {
+        $debut = strtotime($ligne['from_date']);
+        
+        if ($ligne['to_date'] == '9999-01-01') {
+            $fin = time();
+        } else {
+            $fin = strtotime($ligne['to_date']);
+        }
+        
+        $duree = $fin - $debut;
+        
+        if ($duree > $max_duree) {
+            $max_duree = $duree;
+            $emploi_long = $ligne;
+        }
+    }
+    
+    mysqli_free_result($req);
+    
+    $jours = floor($max_duree / 86400);
+    $annees = floor($jours / 365);
+    $mois = floor(($jours % 365) / 30);
+    
+    if ($emploi_long) {
+        return array(
+            'title' => $emploi_long['title'],
+            'duree_texte' => $annees . ' an(s) et ' . $mois . ' mois'
+        );
+    }
+    
+    return array(
+        'title' => 'Aucun emploi',
+        'duree_texte' => '-'
+    );
+}

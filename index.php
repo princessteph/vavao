@@ -4,6 +4,8 @@ ini_set('display_errors',1);
 
 include ('function.php');
 $departements = ls_depart();
+$employes = empl();
+$nb_empl= count($employes);
 ?>
 
 <!DOCTYPE html>
@@ -43,6 +45,9 @@ $departements = ls_depart();
             <a href="statistiques.php" class="btn btn-outline-primary">
                 <i class="bi bi-bar-chart me-2"></i> Statistiques
             </a>
+        </div>
+        <div class="mb-3">
+            <p>Nombre d'employés : <?php echo $nb_empl; ?></p>
         </div>
         <div class="tableau">
             <h1 class="text-center mb-4">Liste des departements</h1>

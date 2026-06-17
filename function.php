@@ -28,6 +28,19 @@ function ls_depart() {
     return $result;
 }
 
+function empl() {
+    $sql = "SELECT * FROM employees";
+    $req = mysqli_query(dbconnect(), $sql);
+    $result = array();
+    
+    while ($user = mysqli_fetch_assoc($req)) {
+        $result[] = $user;
+    }
+    
+    mysqli_free_result($req);
+    return $result;
+}
+
 function depart($dept_no) {
     $sql = "SELECT dept_name FROM departments where dept_no = '$dept_no'";
     $req = mysqli_query(dbconnect(), $sql);
@@ -192,6 +205,7 @@ function modif_depart_employe($emp_no, $new_dept_no, $from_date) {
              VALUES ('$emp_no', '$new_dept_no', '$from_date', '9999-01-01')";
     return mysqli_query($db, $sql2);
 }
+
     
 
 function statistiques_emploi() {
